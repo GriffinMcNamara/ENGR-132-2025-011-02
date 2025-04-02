@@ -1,48 +1,43 @@
-function M1A_main_011_02_McNama36
+function [out] = M1A_sub2_011_02_apolicel(data)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ENGR 132 
 % Program Description 
-% Function to process data files using subfunctions for data management.
-% The processed data will then be displayed in professionally formatted 
-% figures and plots.
+% This function takes in and outputs the data.
 %
 % Function Call
-% the function call is: M1A_main_011_02_McNama36
+% M1A_sub3_SSS_TT_apolicel(data)
 %
 % Input Arguments
+%  data -- the data set
 %
 % Output Arguments
+% out -- the outputed data set
 %
 % Assignment Information
-%   Assignment:     M1, Problem 4
-%   Team member:   Griffin McNamara, McNama36@purdue.edu
+%   Assignment:     M01, Problem #1
+%   Team member:    Aidan Policelli, apolicel@purdue.edu 
 %   Team ID:        011-02
-%   Academic Integrit
-% y:
+%   Academic Integrity:
 %     [] We worked with one or more peers but our collaboration
 %        maintained academic integrity.
 %     Peers we worked with: John Catalan, catalan0@purdue.edu
-%                           Shrey Panicker, panickes@purdue.edu
-%                           Aidan Policelli, apolicel@purdue.edu
+%                   Griffin McNamara, McNama36@purdue.edu 
+%                   Aidan Policelli, apolicel@purdue.edu
+%                   Shrey Panicker, panickes@purdue.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% ____________________
 %% INITIALIZATION
-data = 0;
+temp = data;
 
 %% ____________________
 %% CALCULATIONS
-
-% move the data from one subfunction to the other
-[data_to_3] = M1A_sub2_011_02_apolicel(data);
-[data_to_4] = M1A_sub3_001_02_panickes(data_to_3);
-[data_out] = M1A_sub4_011_02_catalan0 (data_to_4);
-
-
+out = temp;
 
 %% ____________________
 %% FORMATTED TEXT/FIGURE DISPLAYS
-
+fprintf("Data successfully passed to subfunction [2] programmed" + ...
+    " by Aidan Policelli.\n")
 
 %% ____________________
 %% RESULTS
