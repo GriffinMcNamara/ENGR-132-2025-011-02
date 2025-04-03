@@ -38,7 +38,7 @@ data = 0;
 [data_to_4] = M1A_sub3_001_02_panickes(data_to_3);
 [data_out] = M1A_sub4_011_02_catalan0 (data_to_4);
 
-%testing
+%testin
 %% ____________________
 %% FORMATTED TEXT/FIGURE DISPLAYS
 
