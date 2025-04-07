@@ -28,7 +28,7 @@ function M1A_main_011_02_McNama36
 
 %% ____________________
 %% INITIALIZATION
-data = 0;
+data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 
 %% ____________________
 %% CALCULATIONS
