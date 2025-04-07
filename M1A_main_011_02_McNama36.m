@@ -28,7 +28,15 @@ function M1A_main_011_02_McNama36
 
 %% ____________________
 %% INITIALIZATION
+%this gets the data from the file and imports it to a usable formate for
+%MATLAB analysis
 data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
+% finds the size of the created matrix
+[num_rows, num_col] = size(data);
+
+% This holds the column being printed and starts at 2 because the fist
+% column with testing data is 2
+data_set_num = 2; 
 
 %% ____________________
 %% CALCULATIONS
@@ -41,7 +49,24 @@ data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 %testin
 %% ____________________
 %% FORMATTED TEXT/FIGURE DISPLAYS
-% testing 2
+
+% initalize the figure and do the things needed only once
+figure(1)
+hold on 
+grid on
+
+% loop to print the figure with every dataset
+while (data_set_num <= num_col)
+
+    % set a variable for the colour that changes with every ittoration
+    color = mod([0.2 + data_set_num * 0.01, 0.1 + data_set_num ...
+        * 0.03, 0.05 + data_set_num * 0.02], 1);
+    % plot each testing dataset
+    plot(data_out(:, data_set_num), 'Color', ...
+        color, 'LineWidth',1);
+    data_set_num = data_set_num + 1;
+
+end
 
 %% ____________________
 %% RESULTS
