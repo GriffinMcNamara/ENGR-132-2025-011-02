@@ -1,9 +1,9 @@
 function M1B_main_011_02_McNama36
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ENGR 132 
-% Program Description 
+% ENGR 132
+% Program Description
 % Function to process data files using subfunctions for data management.
-% The processed data will then be displayed in professionally formatted 
+% The processed data will then be displayed in professionally formatted
 % figures and plots.
 %
 % Function Call
@@ -36,7 +36,7 @@ data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 
 % This holds the column being printed and starts at 2 because the fist
 % column with testing data is 2
-data_set_num = 2; 
+line_per_plot = 1;
 % Initialize processed data variables for subfunctions
 data_to_3 = []; % Holds output from M1A_sub2_011_02_apolicel
 data_to_4 = []; % Holds output from M1A_sub3_001_02_panickes
@@ -59,20 +59,26 @@ color = [0, 0, 0]; % Placeholder initialization before dynamic assignment
 
 % initalize the figure and do the things needed only once
 figure(1)
-hold on 
+subplot(num_col / 15)
+hold on
 grid on
 
-% loop to print the figure with every dataset
-while (data_set_num <= num_col)
+% This will loop untill all the 
+while (num_poltted <= num_col)
 
-    % set a variable for the colour that changes with every ittoration
-    color = mod([0.2 + data_set_num * 0.01, 0.1 + data_set_num ...
-        * 0.03, 0.05 + data_set_num * 0.02], 1);
-    % plot each testing dataset
-    plot(data_out(:, data_set_num), 'Color', ...
-        color, 'LineWidth',1);
-    data_set_num = data_set_num + 1;
 
+    % loop to print the figure with every dataset
+    while (line_per_plot <= num_col)
+
+        % set a variable for the colour that changes with every ittoration
+        color = mod([0.2 + line_per_plot * 0.01, 0.1 + line_per_plot ...
+            * 0.03, 0.05 + line_per_plot * 0.02], 1);
+        % plot each testing dataset
+        plot(data_out(:, line_per_plot), 'Color', ...
+            color, 'LineWidth',1);
+        line_per_plot = line_per_plot + 1;
+
+    end
 end
 
 %% ____________________

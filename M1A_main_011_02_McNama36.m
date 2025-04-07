@@ -37,6 +37,13 @@ data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 % This holds the column being printed and starts at 2 because the fist
 % column with testing data is 2
 data_set_num = 2; 
+% Initialize processed data variables for subfunctions
+data_to_3 = []; % Holds output from M1A_sub2_011_02_apolicel
+data_to_4 = []; % Holds output from M1A_sub3_001_02_panickes
+data_out = [];  % Holds final output after processing
+color = [0, 0, 0]; % Placeholder initialization before dynamic assignment
+
+
 
 %% ____________________
 %% CALCULATIONS
