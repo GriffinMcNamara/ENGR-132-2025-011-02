@@ -1,4 +1,4 @@
-function M1B_main_011_02_McNama36
+function M1B_main_011_02_McNama36()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ENGR 132
 % Program Description
@@ -17,8 +17,8 @@ function M1B_main_011_02_McNama36
 %   Assignment:     M1B, Problem 1
 %   Team member:   Griffin McNamara, McNama36@purdue.edu
 %   Team ID:        011-02
-%   Academic Integrit
-% y:
+%   Academic Integrity:
+%
 %     [] We worked with one or more peers but our collaboration
 %        maintained academic integrity.
 %     Peers we worked with: John Catalan, catalan0@purdue.edu
@@ -36,12 +36,13 @@ data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 
 % This holds the column being printed and starts at 2 because the fist
 % column with testing data is 2
-line_per_plot = 1;
+line_per_plot = 2;
 % Initialize processed data variables for subfunctions
 data_to_3 = []; % Holds output from M1A_sub2_011_02_apolicel
 data_to_4 = []; % Holds output from M1A_sub3_001_02_panickes
 data_out = [];  % Holds final output after processing
 color = [0, 0, 0]; % Placeholder initialization before dynamic assignment
+num_plotted = 1; % start value that increases every loop it controls
 
 
 
@@ -59,26 +60,38 @@ color = [0, 0, 0]; % Placeholder initialization before dynamic assignment
 
 % initalize the figure and do the things needed only once
 figure(1)
-subplot(num_col / 15)
 hold on
-grid on
 
-% This will loop untill all the 
-while (num_poltted <= num_col)
-
+% This will loop untill all the
+while (num_plotted <= floor((num_col - .01) / 15) + 1)
+    
+    % this sets how amny subplots and which are used when
+    subplot(floor(num_col / 30) + 1, floor(num_col / 30) + 1, ...
+        num_plotted)
+    % Formating for all plots
+    hold on
+    grid on
+    title('CruiseAuto ACC Test Data Visualization')
+    xlabel('Time (s)')
+    ylabel('Speed (m/s)')
 
     % loop to print the figure with every dataset
-    while (line_per_plot <= num_col)
+    while (line_per_plot <= 15 * num_plotted && line_per_plot <= num_col)
 
         % set a variable for the colour that changes with every ittoration
-        color = mod([0.2 + line_per_plot * 0.01, 0.1 + line_per_plot ...
-            * 0.03, 0.05 + line_per_plot * 0.02], 1);
+        color = mod([0.2 + line_per_plot * 0.0666, 0.1 + line_per_plot ...
+            * 0.0666, 0.6 + line_per_plot * 0.0666], 1);
+
         % plot each testing dataset
         plot(data_out(:, line_per_plot), 'Color', ...
-            color, 'LineWidth',1);
-        line_per_plot = line_per_plot + 1;
+            color, 'LineWidth', 0.5);
 
-    end 
+        line_per_plot = line_per_plot + 1; %incraments for each loop
+
+    end
+    hold off
+    num_plotted = num_plotted + 1; % incrament for every outer loop
+
 end
 
 %% ____________________
