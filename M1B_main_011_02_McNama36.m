@@ -78,7 +78,7 @@ while (num_poltted <= num_col)
             color, 'LineWidth',1);
         line_per_plot = line_per_plot + 1;
 
-    end
+    end 
 end
 
 %% ____________________
