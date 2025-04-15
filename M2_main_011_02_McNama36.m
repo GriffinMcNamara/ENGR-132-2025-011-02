@@ -32,22 +32,17 @@ function M2_main_011_02_McNama36()
 %MATLAB analysis
 data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 
-% This holds the column being printed and starts at 2 because the fist
-% column with testing data is 2
-line_per_plot = 2;
-% Initialize processed data variables for subfunctions
-data_to_3 = []; % Holds output from M1A_sub2_011_02_apolicel
-data_to_4 = []; % Holds output from M1A_sub3_001_02_panickes
-data_out = [];  % Holds final output after processing
-color = [0, 0, 0]; % Placeholder initialization before dynamic assignment
-num_plotted = 1; % start value that increases every loop it controls
-figure_count = 1; %
+% Initialize placeholder variables for each subfunction's output
+data_to_3 = []; % Output from subfunction 2
+data_to_4 = []; % Output from subfunction 3
+data_out  = []; % Final processed data from subfunction 4
 
-Num_cars = 3;
-Num_tyres = 3;
-Num_tests = 5;
+% Configuration settings
+Num_cars  = 3;  % Number of vehicles tested
+Num_tyres = 3;  % Number of tyre types tested per vehicle
+Num_tests = 5;  % Number of repeated tests per tyre
 
-% Define a color map for 5 test runs
+% Define consistent color mapping for the 5 test runs
 test_colors = [
     0.00 0.45 0.74;
     0.85 0.33 0.10;
@@ -59,9 +54,9 @@ test_colors = [
 %% CALCULATIONS
 
 % move the data from one subfunction to the other
-[data_to_3] = M2_sub2_011_02_apolicel(data);
-[data_to_4] = M2_sub3_001_02_panickes(data_to_3);
-[data_out] = M2_sub4_011_02_catalan0 (data_to_4);
+data_to_3 = M2_sub2_011_02_apolicel(data);     % First processing stage
+data_to_4 = M2_sub3_001_02_panickes(data_to_3);% Second processing stage
+data_out  = M2_sub4_011_02_catalan0(data_to_4);% Final processing stage
 
 %testin
 %% ____________________
@@ -70,12 +65,17 @@ test_colors = [
 % Loop through cars
 for car = 1:Num_cars
     figure(car)
-    tiledlayout(1, 3, 'TileSpacing', 'Compact') % 1 row, 3 columns for tyres
+    tiledlayout(1, 3, 'TileSpacing', 'Compact') %1 row, 3 columns for tyres
+    % Get screen size (in pixels)
+    screen_size = get(0, 'ScreenSize');
+    % Set figure position to cover the whole screen
+    set(gcf, 'Position', screen_size);
     
     for tyre = 1:Num_tyres
-        nexttile
-        hold on
+        nexttile % Move to the next subplot tile
+        hold on  % Allow multiple lines on the same subplot
         
+        % Overlay each test run for the current tyre
         for test = 1:Num_tests
             % Calculate the column index
             col_idx = 1 + (car - 1) * Num_tyres * Num_tests + ...
