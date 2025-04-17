@@ -33,21 +33,16 @@ function [vI, vF] = M2_sub4_011_02_apolicel(data_time, data_vel, accel_start)
 %% INITIALIZATION
 sum5f = 0;   %sum of last five velocites
 sum5i = 0;   %sum of first five velocities
-iAccel_start = 1;  %ndex in velocity vector at the time acceleration begins
+
 length_data = length(data_time);   %length of data sets
 
 %% ____________________
 %% CALCULATIONS
 
-%finds index in time vector closest to the acceleration start time
-while iAccel_start < length_data && accel_start > data_time(iAccel_start)
-    iAccel_start = iAccel_start + 1;
-end
-
 
 %Finds the sum of first five velocities after acceleration begins
-for i = 0:4
-    sum5i = sum5i + data_vel(iAccel_start + iAccel_start);
+for i = 1:5
+    sum5i = sum5i + data_vel(+ i);
 end
 
 

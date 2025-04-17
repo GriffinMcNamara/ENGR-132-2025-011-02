@@ -33,7 +33,7 @@ function M2_main_011_02_McNama36()
 data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 
 speed_data = data(2:end, :);
-time_data = data(1, :);
+time_data = data(: , 1);
 
 clean_data_loops = 10000;%number of times to redo the clean data function
 
@@ -66,6 +66,7 @@ for i = 1:clean_data_loops  % however many times you want to loop
 end
 % Second processing stage
 [acc_start, time_const] = M2_sub3_011_02_panickes(time_data, speed_data);
+
 %Final processing
 [vI, vF]  = M2_sub4_011_02_apolicel(time_data, clean_data, acc_start);
 
@@ -114,10 +115,14 @@ figure;
 axis off;                                       % turn off axes
 
 % Build each line of text using the variables you already have
-text(0.1, 0.8, ['Acceleration start time: ', num2str(acc_start, '%.3f'), ' s'], 'FontSize', 12);
-text(0.1, 0.7, ['Time constant (τ): ',       num2str(time_const, '%.3f'),  ' s'], 'FontSize', 12);
-text(0.1, 0.6, ['Initial velocity (vI): ',    num2str(vI,          '%.3f'),  ' m/s'], 'FontSize', 12);
-text(0.1, 0.5, ['Final velocity (vF): ',      num2str(vF,          '%.3f'),  ' m/s'], 'FontSize', 12);
+text(0.1, 0.8, ['Acceleration start time: ', num2str(acc_start, ...
+    '%.3f'), ' s'], 'FontSize', 12);
+text(0.1, 0.7, ['Time constant (τ): ', num2str(time_const, ...
+    '%.3f'),  ' s'], 'FontSize', 12);
+text(0.1, 0.6, ['Initial velocity (vI): ', num2str(vI, '%.3f'), ...
+    ' m/s'], 'FontSize', 12);
+text(0.1, 0.5, ['Final velocity (vF): ', num2str(vF, '%.3f'), ...
+    ' m/s'], 'FontSize', 12);
 
 title('CruiseAuto Parameter Summary', 'FontSize', 14);
 %% ____________________
