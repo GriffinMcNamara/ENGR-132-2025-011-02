@@ -1,4 +1,5 @@
-function [acc_start, time_const] = M2_sub3_SSS_TT_panickes (data_time, data_vel)
+function [acc_start, time_const] = M2_sub3_011_02_panickes...
+    (data_time, data_vel)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ENGR 132 
 % Program Description 
@@ -8,7 +9,7 @@ function [acc_start, time_const] = M2_sub3_SSS_TT_panickes (data_time, data_vel)
 %
 % Function Call
 %
-% M2_sub3_SSS_TT_panickes
+% M2_sub3_011_02_panickes
 %
 % Input Arguments
 %
@@ -35,15 +36,15 @@ function [acc_start, time_const] = M2_sub3_SSS_TT_panickes (data_time, data_vel)
 %% ____________________
 %% INITIALIZATION
 
-length = len(data_time); % length of time vector 
-acc = zeros(1, length - 1); % establish zero acceleration vector
+n = length(data_time); % length of time vector 
+acc = zeros(1, n); % establish zero acceleration vector
 
 %% ____________________
 %% CALCULATIONS
 
 % Calculate acceleration vector (derivative of velocity)
 
-for i = 1:length-1
+for i = 1:n-1
     dv = data_vel(i+1) - data_vel(i);
     dt = data_time(i+1) - data_time(i);
     acc(i) = dv / dt;

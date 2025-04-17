@@ -32,8 +32,13 @@ function M2_main_011_02_McNama36()
 %MATLAB analysis
 data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 
+speed_data = data(2:end, :);
+time_data = data(1, :);
+
+clean_data_loops = 10000;%number of times to redo the clean data function
+
 % Initialize placeholder variables for each subfunction's output
-data_to_3 = []; % Output from subfunction 2
+clean_data = []; % Output from subfunction 2
 data_to_4 = []; % Output from subfunction 3
 data_out  = []; % Final processed data from subfunction 4
 
@@ -54,11 +59,16 @@ test_colors = [
 %% CALCULATIONS
 
 % move the data from one subfunction to the other
-data_to_3 = M2_sub2_011_02_apolicel(data);     % First processing stage
-data_to_4 = M2_sub3_001_02_panickes(data_to_3);% Second processing stage
-data_out  = M2_sub4_011_02_catalan0(data_to_4);% Final processing stage
+[clean_data] = M2_sub2_011_02_catalan0(speed_data);
 
-%testin
+for i = 1:clean_data_loops  % however many times you want to loop
+    data_out = clean_data(data_out);
+end
+% Second processing stage
+[acc_start, time_const] = M2_sub3_011_02_panickes(time_data, speed_data);
+%Final processing
+[vI, vF]  = M2_sub4_011_02_apolicel(time_data, clean_data, acc_start);
+
 %% ____________________
 %% FORMATTED TEXT/FIGURE DISPLAYS
 
@@ -82,7 +92,7 @@ for car = 1:Num_cars
                            (tyre - 1) * Num_tests + test;
             
             % Plot using predefined color
-            plot(data_out(:, col_idx), 'Color', test_colors(test, :), ...
+            plot(clean_data(:, col_idx), 'Color', test_colors(test, :), ...
                 'LineWidth', 1.5, 'DisplayName', sprintf('Test %d', test));
         end
         
@@ -97,6 +107,19 @@ for car = 1:Num_cars
     
     sgtitle(sprintf('Performance Summary for Car %d', car))
 end
+
+%% ____________________
+%% PARAMETER SUMMARY FIGURE
+figure;
+axis off;                                       % turn off axes
+
+% Build each line of text using the variables you already have
+text(0.1, 0.8, ['Acceleration start time: ', num2str(acc_start, '%.3f'), ' s'], 'FontSize', 12);
+text(0.1, 0.7, ['Time constant (τ): ',       num2str(time_const, '%.3f'),  ' s'], 'FontSize', 12);
+text(0.1, 0.6, ['Initial velocity (vI): ',    num2str(vI,          '%.3f'),  ' m/s'], 'FontSize', 12);
+text(0.1, 0.5, ['Final velocity (vF): ',      num2str(vF,          '%.3f'),  ' m/s'], 'FontSize', 12);
+
+title('CruiseAuto Parameter Summary', 'FontSize', 14);
 %% ____________________
 %% RESULTS
 

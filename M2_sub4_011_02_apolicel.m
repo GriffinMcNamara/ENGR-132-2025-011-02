@@ -6,12 +6,12 @@ function [vI, vF] = M2_sub4_011_02_apolicel(data_time, data_vel, accel_start)
 % and the time data set to accuratly predict the initial and final velocitys.
 %
 % Function Call
-% M1A_sub3_011_02_apolicel(data)
+% M2_sub4_011_02_apolicel(data)
 %
 % Input Arguments
-%  data_vel     - the data set for velocity
-%  accel_start    - start time for acceleration
 %  data_time    - time data set
+%  data_vel     - the data set for velocity
+%  accel_start  - start time for acceleration
 %
 % Output Arguments
 % vI   - aproximate initial speed after acceleration starts
@@ -34,15 +34,16 @@ function [vI, vF] = M2_sub4_011_02_apolicel(data_time, data_vel, accel_start)
 sum5f = 0;   %sum of last five velocites
 sum5i = 0;   %sum of first five velocities
 iAccel_start = 1;  %ndex in velocity vector at the time acceleration begins
-length = length(data_time);   %length of data sets
+length_data = length(data_time);   %length of data sets
 
 %% ____________________
 %% CALCULATIONS
 
 %finds index in time vector closest to the acceleration start time
-while accel_start > data_time(iAccel_start)
+while iAccel_start < length_data && accel_start > data_time(iAccel_start)
     iAccel_start = iAccel_start + 1;
 end
+
 
 %Finds the sum of first five velocities after acceleration begins
 for i = 0:4
@@ -52,7 +53,7 @@ end
 
 %Finds the sum of the last five velocities
 for i = 0:4
-    sum5f = sum5f + data_vel(length - 4 + i);
+    sum5f = sum5f + data_vel(length_data - 4 + i);
 end
 
 %final calculations

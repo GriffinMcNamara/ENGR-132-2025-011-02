@@ -44,7 +44,9 @@ data_out = [];  % Holds final output after processing
 color = [0, 0, 0]; % Placeholder initialization before dynamic assignment
 num_plotted = 1; % start value that increases every loop it controls
 
-
+Num_cars = 3;
+Num_tyres = 3;
+Num_tests = 5;
 
 %% ____________________
 %% CALCULATIONS
