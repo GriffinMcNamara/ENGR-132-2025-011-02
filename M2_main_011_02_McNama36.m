@@ -35,7 +35,7 @@ data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 speed_data = data(2:end, :);
 time_data = data(2:end , 1);
 
-clean_data_loops = 2;%number of times to redo the clean data function
+clean_data_loops = 3;%number of times to redo the clean data function
 
 % Initialize placeholder variables for each subfunction's output
 clean_data = []; % Output from subfunction 2
