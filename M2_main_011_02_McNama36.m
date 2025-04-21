@@ -33,14 +33,12 @@ function M2_main_011_02_McNama36()
 data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 
 speed_data = data(2:end, :);
-time_data = data(: , 1);
+time_data = data(2:end , 1);
 
-clean_data_loops = 10;%number of times to redo the clean data function
+clean_data_loops = 2;%number of times to redo the clean data function
 
 % Initialize placeholder variables for each subfunction's output
 clean_data = []; % Output from subfunction 2
-data_to_4 = []; % Output from subfunction 3
-data_out  = []; % Final processed data from subfunction 4
 
 % Configuration settings
 Num_cars  = 3;  % Number of vehicles tested
@@ -72,7 +70,6 @@ for i = 1:clean_data_loops
     clean_data = M2_sub2_011_02_catalan0(clean_data);
 end
 
-
 %% ____________________
 %% FORMATTED TEXT/FIGURE DISPLAYS
 
@@ -80,27 +77,24 @@ end
 for car = 1:Num_cars
 
     figure(car)
-    tiledlayout(2, 2, 'TileSpacing', 'Compact') %2 row, 1 columns for tyres
     % Get screen size (in pixels)
     screen_size = get(0, 'ScreenSize');
     % Set figure position to cover the whole screen
     set(gcf, 'Position', screen_size);
     
     for tyre = 1:Num_tyres
-        nexttile % Move to the next subplot tile
+        subplot(2, 2, tyre) % Move to the next subplot tile
         hold on  % Allow multiple lines on the same subplot
         
         % Overlay each test run for the current tyre
         for test = 1:Num_tests
             % Calculate the column index
-            col_idx = 1 + (car - 1) * Num_tyres * Num_tests + ...
-                           (tyre - 1) * Num_tests + test;
-            fprintf("Plotting Car %d, Tyre %d, Test %d, col_idx = %d\n", ...
-    car, tyre, test, col_idx);
+            col_idx = (tyre - 1) * Num_tyres + (car - 1) * Num_cars...
+                + test;
+            
             % Plot using predefined color
-            plot(time_data(2:end), clean_data(col_idx), 'Color', ...
-                test_colors(test, :), 'LineWidth', 1.5, ...
-                'DisplayName', sprintf('Test %d', test));
+            p(test) = plot(time_data, clean_data(:, col_idx), ...
+            'Color', test_colors(test, :), 'LineWidth', 1.5);
 
             % fill the matrix with values for use at the end of the outer
             % function
@@ -108,6 +102,10 @@ for car = 1:Num_cars
             i_single_car = i_single_car + 1;
         end
         
+        legend(p, {'Test 1', 'Test 2', 'Test 3', 'Test 4', ...
+            'Test 5'}, 'Location', 'best');
+
+
         % Subplot formatting
         title(sprintf('Car %d - Tyre %d', car, tyre))
         xlabel('Time Index')
@@ -126,10 +124,10 @@ for car = 1:Num_cars
     %for the car being evaluated
     [vI, vF]  = M2_sub4_011_02_apolicel(time_data, single_car_data, ...
         acc_start);
-    
+
     sgtitle(sprintf('Performance Summary for Car %d', car))
 
-    nexttile(4)
+    subplot(2, 2, 4)
     %display the Acceleration start time, Time constant, 
     % Initial velocity, and Final velocity.
     text(0.1, 0.8, ['Acceleration start time: ', num2str(acc_start, ...
