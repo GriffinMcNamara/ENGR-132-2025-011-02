@@ -32,10 +32,10 @@ function M2_main_011_02_McNama36()
 %MATLAB analysis
 data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
 
-speed_data = data(2:end, :);
+speed_data = data(2:end, 2:end);
 time_data = data(2:end , 1);
 
-clean_data_loops = 3;%number of times to redo the clean data function
+clean_data_loops = 5;%number of times to redo the clean data function
 
 % Initialize placeholder variables for each subfunction's output
 clean_data = []; % Output from subfunction 2
@@ -66,7 +66,7 @@ i_single_car = 1;
 % move the data from one subfunction to the other
 [clean_data] = M2_sub2_011_02_catalan0(speed_data);
 
-for i = 1:clean_data_loops
+for counter_1 = 1:clean_data_loops
     clean_data = M2_sub2_011_02_catalan0(clean_data);
 end
 
