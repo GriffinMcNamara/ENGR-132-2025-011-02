@@ -31,6 +31,7 @@ function M3_main_011_02_McNama36()
 %this gets the data from the file and imports it to a usable formate for
 %MATLAB analysis
 data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
+bench_mark_data = readmatrix("Sp25_cruiseAuto_M3benchmark_data.csv");
 
 speed_data = data(2:end, 2:end);
 time_data = data(2:end , 1);
@@ -149,7 +150,7 @@ end
 %% ____________________
 %% RESULTS
 
-M3_benchmark_011_02_McNama36(speed_data, clean_data, time_data, ...
+M3_benchmark_011_02_McNama36(speed_data, bench_mark_data, time_data, ...
     Num_cars, Num_tyres, Num_tests)
 
 %% ____________________

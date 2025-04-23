@@ -31,15 +31,14 @@ n = numel(data_time);
 %% INITIAL GUESS SETUP
 
 % Estimate yL and yH from velocity data
-yL_guess = min(real_data);
-yH_guess = max(real_data);
+yL_guess = [-0.09, -0.22, 0.19];
+yH_guess = [25.08, 24.72, 24.18];
 
 % Rough guess of when the velocity starts increasing
-[~, idx_start] = max(diff(real_data));
-ts_guess = data_time(idx_start);
+ts_guess = [6.21, 9.39, 6.85];
 
 % Initial guess for time constant
-tau_guess = 1;
+tau_guess = [1.51, 1.96, 2.80];
 
 % Extract parameters for clarity
 yL = yL_guess;

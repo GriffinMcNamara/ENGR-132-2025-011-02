@@ -37,7 +37,8 @@ for ii = 1:column_size
     for jj = 1:rows_size - 1 % Stops at second-to-last point so it stays in
                              % bounds, same reason as stated earlier
         if ~isnan(speed_data(ii,jj)) && ~isnan(speed_data(ii+1, jj))
-            avg_speed_data(ii,jj) = ((speed_data(ii,jj) + speed_data(ii+1,jj)) / 2); 
+            avg_speed_data(ii,jj) = ((speed_data(ii,jj) + speed_data ...
+                (ii+1,jj)) / 2); 
             % Average of the two becomes new data point. We also use 
             % ~isnan because this actually returns a 1 or 0 that we can use
             % in our conditional statement
