@@ -149,6 +149,8 @@ end
 %% ____________________
 %% RESULTS
 
+M3_benchmark_011_02_McNama36(speed_data, clean_data, time_data, ...
+    Num_cars, Num_tyres, Num_tests)
 
 %% ____________________
 %% ACADEMIC INTEGRITY STATEMENT

@@ -27,19 +27,10 @@ function M3_benchmark_011_02_McNama36(real_data, clean_data, data_time, ...
 %% ____________________
 %% INITIALIZATION
 SSE_total = 0;
-single_car_data_ave = 0;
+single_car_data_ave = zeros(size(clean_data, 1), 1);
 i_single_car = 1;
 
-%% SSE CALCULATIONS
 
-model = M3_benchmark_sub_1_011_02_McNama36(real_data, data_time);
-
-for control = 1 : length(clean_data)
-    SSE_total = (model(control) - clean_data) .^ 2 + SSE_total;
-end
-
-%the error devided by the number of datapoints I have
-ave_error_per_point = SSE_total ./ size(clean_data, 1);
 
 %% ____________________
 %% FORMATTED TEXT/FIGURE DISPLAYS
@@ -47,7 +38,9 @@ ave_error_per_point = SSE_total ./ size(clean_data, 1);
 % Loop through cars
 for car = 1:Num_cars
 
-    figure(car)
+    figure(car + 3)
+    set(figure(car + 3), 'Name', ['Vehicle Speed vs. Time: Benchmark ' ...
+        'Data and First-Order Model Comparison'], 'NumberTitle', 'off');
     % Get screen size (in pixels)
     screen_size = get(0, 'ScreenSize');
     % Set figure position to cover the whole screen
@@ -66,21 +59,30 @@ for car = 1:Num_cars
             % fill the matrix with values for use at the end of the outer
             % function
             single_car_data_ave(:, 1) = clean_data(:, ...
-                col_idx) + single_car_data_ave(:, i_single_car);
+                col_idx) + single_car_data_ave(:, 1);
             i_single_car = i_single_car + 1;
         end
-        single_car_data_ave(:, 1) = i_single_car;
+        model = M3_benchmark_sub_1_011_02_McNama36(single_car_data_ave, ...
+            data_time);
+        single_car_data_ave = mean(clean_data, 2);
         %plot the average of the test data
-        plot(time_data, single_car_data_ave(:, col_idx), 'LineWidth', 1.5);
+        plot(data_time, single_car_data_ave(:, 1), 'LineWidth', 1.5);
         %plot our model
+        plot(data_time, model, 'LineWidth', 1.5)
 
-
+        %% SSE CALCULATIONS
+        for control = 1 : length(clean_data)
+            SSE_total = (model(control) - clean_data) .^ 2 + SSE_total;
+        end
+        
+        %the error devided by the number of datapoints I have
+        ave_error_per_point = SSE_total ./ size(clean_data, 1);
 
         % Subplot formatting
         title(sprintf('Car %d - Tyre %d', car, tyre))
         xlabel('Time Index')
         ylabel('Speed (or Output)')
-        legend('Location', 'best')
+        legend("average of the test data", "model",'Location', 'best')
         grid on
         hold off
     end

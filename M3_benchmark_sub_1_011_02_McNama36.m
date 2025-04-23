@@ -23,6 +23,11 @@ function y = M3_benchmark_sub_1_011_02_McNama36(real_data, data_time)
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% ____________________
+%% INITIALIZATION
+n = numel(data_time);
+
 %% INITIAL GUESS SETUP
 
 % Estimate yL and yH from velocity data
@@ -36,22 +41,21 @@ ts_guess = data_time(idx_start);
 % Initial guess for time constant
 tau_guess = 1;
 
-% Parameter vector: [yL, yH, t_s, tau]
-params = [yL_guess, yH_guess, ts_guess, tau_guess];
-
 % Extract parameters for clarity
-yL = params(1);
-yH = params(2);
-ts = params(3);
-tau = params(4);
+yL = yL_guess;
+yH = yH_guess;
+ts = ts_guess;
+tau = tau_guess;
 
 % Preallocate output
 y = zeros(size(data_time));
 
-% Region 1: t < ts → constant yL
-region1 = data_time < ts;
-y(region1) = yL;
-
-% Region 2: t >= ts → exponential approach to yH
-region2 = ~region1;
-y(region2) = yL + (yH - yL) * (1 - exp(-(data_time(region2) - ts) / tau));
+for i = 1:n
+    if data_time(i) < ts
+        % Region 1: before start time, hold at yL
+        y(i) = yL;
+    else
+        % Region 2: after start time, exponential rise toward yH
+        y(i) = yL + (yH - yL) * (1 - exp(-(data_time(i) - ts) / tau));
+    end
+end
