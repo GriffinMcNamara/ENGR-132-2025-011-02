@@ -6,7 +6,7 @@ function [vI, vF] = M3_sub4_011_02_apolicel(data_time, data_vel)
 % and the time data set to accuratly predict the initial and final velocitys.
 %
 % Function Call
-% M3_sub4_011_02_apolicel(data)
+% M3_sub4_011_02_apolicel
 %
 % Input Arguments
 %  data_time    - time data set
