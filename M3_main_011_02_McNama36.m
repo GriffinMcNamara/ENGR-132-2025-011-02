@@ -154,10 +154,10 @@ for car = 1:Num_cars
          time_data, yL_given(car), yH_given(car), ts_given(car) ...
          , tau_given(car));
 
-    SSE_total = sum((model - speed_data( : , car + 1))...
+    SSE_total = sum((model - clean_data( : , car + 1))...
         .^ 2);
     %the error devided by the number of datapoints I have
-    ave_error_per_point = SSE_total ./ size(speed_data, 1);
+    ave_error_per_point = SSE_total ./ size(clean_data, 1);
     fprintf("the SSE total %d \n", ave_error_per_point)
 
     %start time
@@ -183,6 +183,10 @@ for car = 1:Num_cars
     % set the index for the tempuary matrix to 1 for the next loop
     i_single_car = 1;
     single_car_data = [];
+
+    M3_performance_011_02(bench_mark_data(2:end, car), bench_mark_data ...
+        (2:end, 1), yL_given(car), yH_given(car), ts_given(car), ...
+        tau_given(car), car);
 end
 
 %% ____________________

@@ -39,7 +39,7 @@ function [acc_start, time_const] = M3_sub3_011_02_panickes...
     % Calculate the 63.2% target velocity level
     targetVel = yL + 0.632 * (yH - yL);
 
-    data_vel = smooth(data_vel, 10);
+    data_vel = movmean(data_vel, 10);
 
     % Find first time velocity reaches or exceeds 63.2% of total change
     index_target = find(data_vel >= targetVel, 1);

@@ -26,13 +26,16 @@ adjusted_time = time_data + time_shift;
 
 % Generate benchmark model (first-order response)
 model_data = yL + (yH - yL) * (1 - exp(-(adjusted_time - 5.0) ./ tau));
-model_data(adjusted_time < 5.0) = yL;  % Hold initial value before acceleration starts
+model_data(adjusted_time < 5.0) = yL;  % Hold initial value before
+% acceleration starts
 
 % Define performance boundaries (±10% of tau)
 tau_upper = tau * 1.1;
 tau_lower = tau * 0.9;
-upper_bound = yL + (yH - yL) * (1 - exp(-(adjusted_time - 5.0) ./ tau_lower));
-lower_bound = yL + (yH - yL) * (1 - exp(-(adjusted_time - 5.0) ./ tau_upper));
+upper_bound = yL + (yH - yL) * (1 - exp(-(adjusted_time - 5.0) ...
+    ./ tau_lower));
+lower_bound = yL + (yH - yL) * (1 - exp(-(adjusted_time - 5.0) ...
+    ./ tau_upper));
 upper_bound(adjusted_time < 5.0) = yL;
 lower_bound(adjusted_time < 5.0) = yL;
 
