@@ -1,4 +1,4 @@
-function [avg_speed_data] = M3_sub2_011_02_catalan0(speed_data)
+function [clean_avg_speed_data] = M3_sub2_011_02_catalan0(speed_data)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ENGR 132 
 % Program Description 
@@ -50,6 +50,27 @@ for ii = 1:column_size
         end 
     end 
 end 
+
+%% POST-PROCESSING: Replace remaining NaNs with column average
+for ii = 1:column_size
+    % Calculate the average of non-NaN values for the column
+    nonNanVals = avg_speed_data(:,ii);
+    nonNanVals = nonNanVals(~isnan(nonNanVals));
+    if ~isempty(nonNanVals)
+        colAvg = mean(nonNanVals);
+        % Replace NaNs in that column with the computed column average
+        nanIndices = isnan(avg_speed_data(:,ii));
+        avg_speed_data(nanIndices, ii) = colAvg;
+    end
+end
+
+% Adjust the polynomial order and frame length as needed.
+polyOrder = 3; 
+frameLength = 121;  % Must be an odd number
+clean_avg_speed_data = sgolayfilt(avg_speed_data, polyOrder, frameLength);
+
+% 'rloess' uses a robust version to minimize the influence of outliers.
+clean_avg_speed_data = smooth(clean_avg_speed_data, frameLength, 'rloess');  
 
 %% ____________________
 %% ACADEMIC INTEGRITY STATEMENT

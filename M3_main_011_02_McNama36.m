@@ -122,7 +122,7 @@ for car = 1:Num_cars
         hold off
     end
 
-    average_car_data = sum(single_car_data, 2);
+    average_car_data = sum(single_car_data, 2) ./ car * tyre;
 
     % Do opporations to find needed values 
     %Call a function to find the initial and final volocities
@@ -150,6 +150,16 @@ for car = 1:Num_cars
     title('CruiseAuto Parameter Summary', 'FontSize', 14);
 
     %ERROR STUFF
+    model = M3_benchmark_sub_1_011_02_McNama36(speed_data, ...
+         time_data, yL_given(car), yH_given(car), ts_given(car) ...
+         , tau_given(car));
+
+    SSE_total = sum((model - speed_data( : , car + 1))...
+        .^ 2);
+    %the error devided by the number of datapoints I have
+    ave_error_per_point = SSE_total ./ size(speed_data, 1);
+    fprintf("the SSE total %d \n", ave_error_per_point)
+
     %start time
     error_percent_start = (abs(ts_given(car) - acc_start)) / ts_given(car);
     fprintf("the percetn error for the start time for car %d " + ...
