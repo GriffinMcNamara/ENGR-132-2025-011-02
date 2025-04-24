@@ -13,8 +13,10 @@ function [acc_start, time_const] = M3_sub3_011_02_panickes...
 %
 % Input Arguments
 %
-% 1. x_data: time-vector
-% 2. y_data: velocity vector
+% 1. data_time
+% 2. data_vel
+% 3. yL
+% 4. yH
 %
 % Output Arguments
 %
