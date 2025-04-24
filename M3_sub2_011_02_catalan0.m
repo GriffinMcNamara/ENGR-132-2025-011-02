@@ -21,7 +21,7 @@ function [clean_avg_speed_data] = M3_sub2_011_02_catalan0(speed_data)
 %   Academic Integrity:
 %     [] We worked with one or more peers but our collaboration
 %        maintained academic integrity.
-%     Peers we worked with: Griffin McNama, McNama@purdue.edu
+%     Peers we worked with: Griffin McNama, McNama36@purdue.edu
 %                           Shrey Panicker, panickes@purdue.edu
 %                           Aidan Policelli, apolicel@purdue.ed
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
