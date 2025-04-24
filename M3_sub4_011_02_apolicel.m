@@ -1,4 +1,4 @@
-function [vI, vF] = M3_sub4_011_02_apolicel(data_time, data_vel, accel_start)
+function [vI, vF] = M3_sub4_011_02_apolicel(data_time, data_vel)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ENGR 132 
 % Program Description 

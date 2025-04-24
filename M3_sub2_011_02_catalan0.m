@@ -36,22 +36,20 @@ avg_speed_data = nan(rows_size - 1, column_size); % We're only getting
 for ii = 1:column_size
     for jj = 1:rows_size - 1 % Stops at second-to-last point so it stays in
                              % bounds, same reason as stated earlier
-        if ~isnan(speed_data(ii,jj)) && ~isnan(speed_data(ii+1, jj))
-            avg_speed_data(ii,jj) = ((speed_data(ii,jj) + speed_data ...
-                (ii+1,jj)) / 2); 
+        if ~isnan(speed_data(jj,ii)) && ~isnan(speed_data(jj+1, ii))
+            avg_speed_data(jj,ii) = ((speed_data(jj,ii) + ...
+                speed_data(jj+1,ii)) / 2); 
             % Average of the two becomes new data point. We also use 
             % ~isnan because this actually returns a 1 or 0 that we can use
             % in our conditional statement
  
         else
-            avg_speed_data(ii,jj) = (nan); 
+            avg_speed_data(jj,ii) = (nan); 
             % If the value we are observing is nan then it just stays nan
 
         end 
     end 
 end 
-
-
 
 %% ____________________
 %% ACADEMIC INTEGRITY STATEMENT
@@ -59,4 +57,3 @@ end
 % source, either modified or unmodified. Neither have we provided
 % access to my code to another. The program we are submitting
 % is our own original work.
-

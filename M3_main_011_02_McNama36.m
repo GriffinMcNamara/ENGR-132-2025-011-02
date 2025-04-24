@@ -61,6 +61,12 @@ single_car_data = [];
 % a counter to use when indexing the single_car_data
 i_single_car = 1;
 
+% given values provided 
+yL_given = [-0.09, -0.22, 0.19];
+yH_given = [25.08, 24.72, 24.18];
+ts_given = [6.21, 9.39, 6.85];
+tau_given = [1.51, 1.96, 2.80];
+
 %% ____________________
 %% CALCULATIONS
 
@@ -116,15 +122,16 @@ for car = 1:Num_cars
         hold off
     end
 
+    average_car_data = sum(single_car_data, 2);
+
     % Do opporations to find needed values 
-    %Call a function to find the acceleration start time and time constant
-    %for the car being evaluated
-    [acc_start, time_const] = M2_sub3_011_02_panickes(time_data, ...
-        single_car_data);
     %Call a function to find the initial and final volocities
     %for the car being evaluated
-    [vI, vF]  = M2_sub4_011_02_apolicel(time_data, single_car_data, ...
-        acc_start);
+    [vI, vF]  = M3_sub4_011_02_apolicel(time_data, single_car_data);
+    %Call a function to find the acceleration start time and time constant
+    %for the car being evaluated
+    [acc_start, time_const] = M3_sub3_011_02_panickes(time_data, ...
+        average_car_data, vI, vF);
 
     sgtitle(sprintf('Performance Summary for Car %d', car))
 
@@ -141,6 +148,27 @@ for car = 1:Num_cars
         ' m/s'], 'FontSize', 12);
 
     title('CruiseAuto Parameter Summary', 'FontSize', 14);
+
+    %ERROR STUFF
+    %start time
+    error_percent_start = (abs(ts_given(car) - acc_start)) / ts_given(car);
+    fprintf("the percetn error for the start time for car %d " + ...
+        "is %d\n", car, error_percent_start);
+    %time constant
+    error_percent_time_const = (abs(tau_given(car) - time_const)) / ...
+        tau_given(car);
+    fprintf("the percetn error for the time constant for car %d " + ...
+        "is %d\n", car, error_percent_time_const);
+     %start volocity
+    error_percent_start_V = (abs(yL_given(car) - vI)) / ...
+        yL_given(car);
+    fprintf("the percetn error for the start volocity for car %d " + ...
+        "is %d\n", car, error_percent_start_V);
+     %end volocity
+    error_percent_end_V = (abs(yH_given(car) - vF)) / ...
+        yH_given(car);
+    fprintf("the percetn error for the end volocity for car %d " + ...
+        "is %d\n\n", car, error_percent_end_V);
 
     % set the index for the tempuary matrix to 1 for the next loop
     i_single_car = 1;

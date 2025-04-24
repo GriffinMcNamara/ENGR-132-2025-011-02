@@ -22,7 +22,11 @@ function y = M3_benchmark_sub_1_011_02_McNama36(real_data, data_time, ...
 % Output Arguments:
 %   y      - Vector of y-values evaluated at each time t
 %
-%
+%     [] We worked with one or more peers but our collaboration
+%        maintained academic integrity.
+%     Peers we worked with: John Catalan, catalan0@purdue.edu
+%                           Shrey Panicker, panickes@purdue.edu
+%                           Aidan Policelli, apolicel@purdue.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% ____________________

@@ -78,9 +78,9 @@ for car = 1:Num_cars
 
     %% SSE CALCULATIONS
 
-        SSE_total = sum((model - bench_data(2:end, car + 1))...
-            .^ 2);
-    
+    SSE_total = sum((model - bench_data(2:end, car + 1))...
+        .^ 2);
+
     %the error devided by the number of datapoints I have
     ave_error_per_point = SSE_total ./ size(bench_data, 1);
     
@@ -96,7 +96,5 @@ for car = 1:Num_cars
     SSE_total = 0;
     hold off
 end
-
-
 
 

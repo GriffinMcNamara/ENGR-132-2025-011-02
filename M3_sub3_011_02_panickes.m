@@ -1,5 +1,5 @@
-bfunction [acc_start, time_const] = M3_sub3_011_02_panickes...
-    (data_time, data_vel)
+function [acc_start, time_const] = M3_sub3_011_02_panickes...
+    (data_time, data_vel, yL, yH)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ENGR 132 
 % Program Description 
@@ -36,30 +36,38 @@ bfunction [acc_start, time_const] = M3_sub3_011_02_panickes...
 %% ____________________
 %% INITIALIZATION
 
-n = length(data_time); % length of time vector 
-acc = zeros(1, n); % establish zero acceleration vector
+    % Calculate the 63.2% target velocity level
+    targetVel = yL + 0.632 * (yH - yL);
 
-%% ____________________
-%% CALCULATIONS
+    % Find first time velocity reaches or exceeds 63.2% of total change
+    index_target = find(data_vel >= targetVel, 1);
 
-% Calculate acceleration vector (derivative of velocity)
+    if isempty(index_target)
+        error('Target velocity not reached in dataset.');
+    end
 
-for i = 1:n-1
-    dv = data_vel(i+1) - data_vel(i);
-    dt = data_time(i+1) - data_time(i);
-    acc(i) = dv / dt;
+    % Interpolate for more accurate t_target
+    if index_target > 1
+        t1 = data_time(index_target - 1);
+        t2 = data_time(index_target);
+        v1 = data_vel(index_target - 1);
+        v2 = data_vel(index_target);
+        % Linear interpolation to solve for time at target velocity
+        t_target = t1 + (targetVel - v1) * (t2 - t1) / (v2 - v1);
+    else
+        t_target = data_time(index_target);
+    end
+
+    % Now estimate t_s (start time) as the first point velocity rises above yL
+    index_start = find(data_vel > yL + 0.01 * (yH - yL), 1);  % 1% threshold
+    if isempty(index_start)
+        error('Could not determine start of acceleration.');
+    end
+    acc_start = data_time(index_start);
+
+    % Estimate tau = t_target - t_s
+    time_const = t_target - acc_start;
 end
-
-threshold = max(acc) * 0.05; % Finds 5% of max acceleration
-
-acc_coeffs = polyfit(data_time, acc, 1);
-
-% Calculate accerlation start time at 5% of max acceleration
-acc_start = (threshold - acc_coeffs(2)) / acc_coeffs(1); 
-
-% Calculate time constance at 63.2% of max accelertation
-time_const = (0.632 * max(acc) - acc_coeffs(2)) / acc_coeffs(1);
-
 
 %% ____________________
 %% ACADEMIC INTEGRITY STATEMENT
@@ -67,6 +75,3 @@ time_const = (0.632 * max(acc) - acc_coeffs(2)) / acc_coeffs(1);
 % source, either modified or unmodified. Neither have we provided
 % access to my code to another. The program we are submitting
 % is our own original work.
-
-
-
