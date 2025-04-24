@@ -19,7 +19,7 @@ function [clean_avg_speed_data] = M3_sub2_011_02_catalan0(speed_data)
 %   Team member:    catalan0, catalan0@purdue.edu 
 %   Team ID:        011-02
 %   Academic Integrity:
-%     [X] We worked with one or more peers but our collaboration
+%     [] We worked with one or more peers but our collaboration
 %        maintained academic integrity.
 %     Peers we worked with: Griffin McNama, McNama36@purdue.edu
 %                           Shrey Panicker, panickes@purdue.edu
