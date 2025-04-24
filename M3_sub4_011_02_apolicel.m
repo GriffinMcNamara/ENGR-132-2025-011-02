@@ -41,19 +41,19 @@ length_data = length(data_time);   %length of data sets
 
 
 %Finds the sum of first five velocities after acceleration begins
-for i = 1:5
-    sum5i = sum5i + data_vel(+ i);
+for i = 1:50
+    sum5i = sum5i + data_vel(i);
 end
 
 
 %Finds the sum of the last five velocities
-for i = 0:4
-    sum5f = sum5f + data_vel(length_data - 4 + i);
+for i = 0:49
+    sum5f = sum5f + data_vel(length_data - 50 + i);
 end
 
 %final calculations
-vI = sum5i / 5;
-vF = sum5f / 5;
+vI = sum5i / 50;
+vF = sum5f / 50;
 %% ____________________
 %% FORMATTED TEXT/FIGURE DISPLAYS
 %% ____________________
