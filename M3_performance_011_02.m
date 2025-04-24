@@ -58,8 +58,6 @@ legend({'Benchmark Data', 'Adjusted Model', 'Performance Bounds'}, ...
 xlim([0, max(adjusted_time)]);
 ylim([min(benchmark_data)-1, max(benchmark_data)+1]);
 
-end
-
 % This will loop untill all the
 while (num_plotted <= floor((num_col - .01) / 15) + 1)
     
