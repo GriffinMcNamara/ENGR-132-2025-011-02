@@ -39,6 +39,8 @@ function [acc_start, time_const] = M3_sub3_011_02_panickes...
     % Calculate the 63.2% target velocity level
     targetVel = yL + 0.632 * (yH - yL);
 
+    data_vel = smooth(data_vel, 5);
+
     % Find first time velocity reaches or exceeds 63.2% of total change
     index_target = find(data_vel >= targetVel, 1);
 
@@ -59,7 +61,7 @@ function [acc_start, time_const] = M3_sub3_011_02_panickes...
     end
 
     % Now estimate t_s (start time) as the first point velocity rises above yL
-    index_start = find(data_vel > yL + 0.01 * (yH - yL), 1);  % 1% threshold
+    index_start = find(data_vel > yL + 0.005 * (yH - yL), 1);  % 1% threshold
     if isempty(index_start)
         error('Could not determine start of acceleration.');
     end
