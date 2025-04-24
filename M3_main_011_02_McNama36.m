@@ -184,9 +184,23 @@ for car = 1:Num_cars
     i_single_car = 1;
     single_car_data = [];
 
-    M3_performance_011_02(bench_mark_data(2:end, car), bench_mark_data ...
-        (2:end, 1), yL_given(car), yH_given(car), ts_given(car), ...
-        tau_given(car), car);
+    M3_performance_011_02(bench_mark_data(2:end, car + 1), ...
+        bench_mark_data(2:end, 1), yL_given(car), yH_given(car), ...
+        ts_given(car), tau_given(car), car);
+
+    fprintf("\n----- Car %d Parameters -----\n", car);
+    fprintf("Acceleration start time: %.4f s\n", acc_start);
+    fprintf("Time constant: %.4f s\n", time_const);
+    fprintf("Initial speed: %.4f m/s\n", vI);
+    fprintf("Final speed: %.4f m/s\n", vF);
+
+    figure(20 + car);
+    plot(time_data, model, 'LineWidth', 2);
+    xlabel('Time (s)');
+    ylabel('Velocity (m/s)');
+    title(sprintf('Velocity Model for Car %d', car));
+    grid on;
+    legend('Velocity Model');
 end
 
 %% ____________________

@@ -1,7 +1,7 @@
 function M3_performance_011_02(benchmark_data, time_data, yL, yH, ...
     ts, tau, car_id)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% ENGR 132 - M3_performance_SSS_tt
+% ENGR 132 - M3_performance_011_02
 %
 % Function to visualize benchmark data and performance boundaries
 % adjusted for CruiseAuto's expected acceleration start time of 5.0 sec.
@@ -9,9 +9,9 @@ function M3_performance_011_02(benchmark_data, time_data, yL, yH, ...
 % Inputs:
 %   benchmark_data - raw benchmark velocity data (vector)
 %   time_data      - corresponding time vector (same length)
-%   yL, yH         - initial and final velocity values
-%   ts             - original acceleration start time
-%   tau            - original time constant
+%   yL, yH         - initial and final velocity values (from parameter ID)
+%   ts             - original acceleration start time (from parameter ID)
+%   tau            - original time constant (from parameter ID)
 %   car_id         - vehicle ID for labeling purposes
 %
 % Outputs:
@@ -20,72 +20,57 @@ function M3_performance_011_02(benchmark_data, time_data, yL, yH, ...
 % Author: [Your Name], [Your Email]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[num_rows, num_col] = size(benchmark_data);
+% CruiseAuto benchmark ts value
+cruiseauto_ts = 5.0;
 
-% Adjust time vector to match CruiseAuto's expected t_s = 5.0s
-time_shift = 5.0 - ts;
-adjusted_time = time_data + time_shift;
+% Time adjustment to align ACC start time to CruiseAuto ts
+adjusted_time = time_data + (cruiseauto_ts - ts);
 
-% Generate benchmark model (first-order response)
-model_data = yL + (yH - yL) * (1 - exp(-(adjusted_time - 5.0) ./ tau));
-model_data(adjusted_time < 5.0) = yL;  % Hold initial value before
-% acceleration starts
+% Adjusted model prediction using first-order step response
+adjusted_model = yL + (yH - yL) .* (1 - exp(-(adjusted_time - ...
+    cruiseauto_ts) ./ tau));
 
-% Define performance boundaries (±10% of tau)
-tau_upper = tau * 1.1;
-tau_lower = tau * 0.9;
-upper_bound = yL + (yH - yL) * (1 - exp(-(adjusted_time - 5.0) ...
-    ./ tau_lower));
-lower_bound = yL + (yH - yL) * (1 - exp(-(adjusted_time - 5.0) ...
-    ./ tau_upper));
-upper_bound(adjusted_time < 5.0) = yL;
-lower_bound(adjusted_time < 5.0) = yL;
+% Clip model before acceleration start
+adjusted_model(adjusted_time < cruiseauto_ts) = yL;
 
-% Plotting
-figure(7 + car_id);
-plot(adjusted_time, benchmark_data, 'b', 'LineWidth', 1.5);
+% Define CruiseAuto performance bounds
+% Left bound (most aggressive acceptable response)
+ts_left = 4.50;
+tau_left = 1.26;
+yL_left = 1.10;
+yH_left = 25.82;
+
+% Right bound (most conservative acceptable response)
+ts_right = 6.00;
+tau_right = 3.89;
+yL_right = -0.90;
+yH_right = 23.36;
+
+% Generate time vector aligned to CruiseAuto ts for bounds
+bound_time = time_data + (cruiseauto_ts - ts);
+
+% Calculate left and right bounds
+left_bound = yL_left + (yH_left - yL_left) .* ...
+    (1 - exp(-(bound_time - cruiseauto_ts) ./ tau_left));
+right_bound = yL_right + (yH_right - yL_right) .* ...
+    (1 - exp(-(bound_time - cruiseauto_ts) ./ tau_right));
+
+% Clip bounds before ACC start
+left_bound(bound_time < cruiseauto_ts) = yL_left;
+right_bound(bound_time < cruiseauto_ts) = yL_right;
+
+% Plot everything
+figure;
 hold on;
-plot(adjusted_time, model_data, 'k--', 'LineWidth', 2);
-plot(adjusted_time, upper_bound, 'r:', 'LineWidth', 1.5);
-plot(adjusted_time, lower_bound, 'r:', 'LineWidth', 1.5);
+plot(bound_time, benchmark_data, 'k', 'LineWidth', 1.5); % Benchmark data
+plot(adjusted_time, adjusted_model, 'b--', 'LineWidth', 2);% Adjusted model
+plot(bound_time, left_bound, 'r:', 'LineWidth', 1.5);  % Left bound
+plot(bound_time, right_bound, 'r:', 'LineWidth', 1.5);    % Right bound
+
+xlabel('Time (s)');
+ylabel('Speed (m/s)');
+title(sprintf('Car %d: Model vs. CruiseAuto Bounds', car_id));
+legend({'Benchmark Data', 'Adjusted Model', 'Left Bound', 'Right Bound'}, ...
+       'Location', 'best');
 grid on;
 
-title(sprintf('Performance Boundaries - Car %d', car_id), 'FontSize', 14);
-xlabel('Time (s)');
-ylabel('Velocity (m/s)');
-legend({'Benchmark Data', 'Adjusted Model', 'Performance Bounds'}, ...
-    'Location', 'best');
-xlim([0, max(adjusted_time)]);
-ylim([min(benchmark_data)-1, max(benchmark_data)+1]);
-
-% This will loop untill all the
-while (num_plotted <= floor((num_col - .01) / 15) + 1)
-    
-    % this sets how amny subplots and which are used when
-    subplot(floor(num_col / 30) + 1, floor(num_col / 30) + 1, ...
-        num_plotted)
-    % Formating for all plots
-    hold on
-    grid on
-    title('CruiseAuto ACC Test Data Visualization')
-    xlabel('Time (s)')
-    ylabel('Speed (m/s)')
-
-    % loop to print the figure with every dataset
-    while (line_per_plot <= 15 * num_plotted && line_per_plot <= num_col)
-
-        % set a variable for the colour that changes with every ittoration
-        color = mod([0.2 + line_per_plot * 0.0666, 0.1 + line_per_plot ...
-            * 0.0666, 0.6 + line_per_plot * 0.0666], 1);
-
-        % plot each testing dataset
-        plot(data_out(:, line_per_plot), 'Color', ...
-            color, 'LineWidth', 0.5);
-
-        line_per_plot = line_per_plot + 1; %incraments for each loop
-
-    end
-    hold off
-    num_plotted = num_plotted + 1; % incrament for every outer loop
-
-end
