@@ -61,6 +61,7 @@ function [acc_start, time_const] = M3_sub3_011_02_panickes...
     end
 
     % Now estimate t_s (start time) as the first point velocity rises above yL
+    start_time_range = 100;
     index_start = find(data_vel(start_time_range:end) > yL + 0.05 * (yH - yL), 1);  % 1% threshold
     if isempty(index_start)
         error('Could not determine start of acceleration.');
