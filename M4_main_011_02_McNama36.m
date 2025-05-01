@@ -209,6 +209,10 @@ for car = 1:Num_cars
     legend('Velocity Model');
 end
 
+% give titles to the figures
+figure(1); sgtitle('Compact')
+figure(2); sgtitle('sedan')
+figure(3); sgtitle('SUV')
 %% ____________________
 %% RESULTS
 
