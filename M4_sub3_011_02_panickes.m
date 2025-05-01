@@ -38,41 +38,39 @@ function [acc_start, time_const] = M4_sub3_011_02_panickes...
 %% ____________________
 %% INITIALIZATION
 
-    % Calculate the 63.2% target velocity level
-    targetVel = yL + 0.632 * (yH - yL);
+% Apply smoothing
+data_vel = movmean(data_vel, 10);
 
-    data_vel = movmean(data_vel, 10);
+%% ____________________
+%% CALCULATIONS
 
-    % Find first time velocity reaches or exceeds 63.2% of total change
-    index_target = find(data_vel >= targetVel, 1);
+% Step 1: Calculate derivative of velocity with respect to time
+derivative = diff(data_vel) ./ diff(data_time);
 
-    if isempty(index_target)
-        error('Target velocity not reached in dataset.');
+% Step 2: Find first positive derivative to mark acceleration start
+for k = 1:length(derivative)
+    if derivative(k) > 0
+        pos_der = k;
+        break;
     end
+end
 
-    % Interpolate for more accurate t_target
-    if index_target > 1
-        t1 = data_time(index_target - 1);
-        t2 = data_time(index_target);
-        v1 = data_vel(index_target - 1);
-        v2 = data_vel(index_target);
-        % Linear interpolation to solve for time at target velocity
-        t_target = t1 + (targetVel - v1) * (t2 - t1) / (v2 - v1);
-    else
-        t_target = data_time(index_target);
+acc_start = data_time(pos_der);  % Start of acceleration
+
+% Step 3: Compute 63.2% of velocity change
+target_velocity = yL + 0.632 * (yH - yL);
+
+% Step 4: Find time when velocity crosses the target velocity
+for m = pos_der+1:length(data_vel)
+    if data_vel(m) >= target_velocity
+        index_target = m;
+        break;
     end
+end
 
-    % Now estimate t_s (start time) as the first point velocity rises above yL
-    start_time_range = 100;
-    index_start = find(data_vel(start_time_range:end) > yL + 0.20 ...
-        * (yH - yL), 1);  % 1% threshold
-    if isempty(index_start)
-        error('Could not determine start of acceleration.');
-    end
-    acc_start = data_time(index_start);
+% Step 5: Calculate time constant
+time_const = data_time(index_target) - acc_start;
 
-    % Estimate tau = t_target - t_s
-    time_const = t_target - acc_start;
 end
 
 %% ____________________

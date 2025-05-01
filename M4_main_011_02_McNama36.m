@@ -67,6 +67,9 @@ yH_given = [25.08, 24.72, 24.18];
 ts_given = [6.21, 9.39, 6.85];
 tau_given = [1.51, 1.96, 2.80];
 
+% make sure all figures seen are the correct ones
+close all;
+
 %% ____________________
 %% CALCULATIONS
 
