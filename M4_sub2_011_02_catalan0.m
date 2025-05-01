@@ -32,7 +32,7 @@ function [avg_speed_data] = M4_sub2_011_02_catalan0(speed_data)
 avg_speed_data = nan(rows_size - 1, column_size); % We're only getting
                                                   % "size - 1" averages
 
-dip_threshold = 20; % If the difference between two points surpasses this
+dip_threshold = 2; % If the difference between two points surpasses this
                     % then we will take the average of those two points
 %% ____________________
 %% CALCULATIONS
