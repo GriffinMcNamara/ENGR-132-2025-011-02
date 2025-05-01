@@ -31,7 +31,7 @@ function M4_main_011_02_McNama36()
 %this gets the data from the file and imports it to a usable formate for
 %MATLAB analysis
 data = readmatrix("Sp25_cruiseAuto_experimental_data.csv");
-bench_mark_data = readmatrix("Sp25_cruiseAuto_M4benchmark_data.csv");
+bench_mark_data = readmatrix("Sp25_cruiseAuto_M3benchmark_data.csv");
 
 speed_data = data(2:end, 2:end);
 time_data = data(2:end , 1);
